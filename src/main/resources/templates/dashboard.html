@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For Bar Chart -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dashboards.css}">
+	<script>
+	    document.addEventListener("DOMContentLoaded", function() {
+	        document.getElementById("candidatesDropdown").style.display = "none"; // Hide on page load
+	    });
+
+	    function toggleDropdown() {
+	        var dropdown = document.getElementById("candidatesDropdown");
+	        dropdown.style.display = (dropdown.style.display === "block") ? "none" : "block";
+	    }
+
+	    // Close dropdown if clicking outside
+	    document.addEventListener("click", function(event) {
+	        var dropdown = document.getElementById("candidatesDropdown");
+	        var button = document.querySelector(".dropdown-btn");
+
+	        if (!dropdown.contains(event.target) && event.target !== button) {
+	            dropdown.style.display = "none";
+	        }
+	    });
+	</script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <h2>Voting System</h2>
+            <ul>
+                <li><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li><a href="#">Ballot Position</a></li>
+				<li>
+				    <a href="#" class="dropdown-btn" onclick="toggleDropdown()">Candidates</a>
+				    <ul id="candidatesDropdown" class="dropdown-content">
+				        <li><a th:href="@{/admin/addcandidate}">Add Candidate</a></li>
+				        <li><a th:href="@{/admin/managecandidate}">Manage Candidate</a></li>
+				    </ul>
+				</li>
+
+				<li><a th:href="@{/voters/candidate/admin}">Voting logs</a></li>
+
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <h1>Dashboard</h1>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard">
+                <div class="card green">
+                    <h3>No. of Candidates</h3>
+                    <p th:text="${candidateno}"></p>
+                </div>
+                <div class="card orange">
+                    <h3>Total Votes</h3>
+                    <p th:text="${voteno}"></p>
+                </div>
+                <div class="card red">
+                    <h3>Total Voters</h3>
+                    <p th:text="${totalvoters}"></p>
+                </div>
+            </div>
+
+            <!-- Votes Tally -->
+            <section class="votes-tally">
+                <h2>Votes Tally</h2>
+                <canvas id="votesChart"></canvas>
+            </section>
+        </main>
+    </div>
+
+    <script th:inline="javascript">
+        // Chart.js Bar Chart
+        var candidateNames = /*[[${candidates.![name]}]]*/ [];
+        var candidateVotes = /*[[${candidates.![totalvotes]}]]*/ [];
+        const ctx = document.getElementById('votesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: candidateNames,
+                datasets: [{
+                    label: 'Votes',
+                    data: candidateVotes,
+                    backgroundColor: ['#4CAF50', '#FF9800', '#E91E63'],
+					barThickness: 100, 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

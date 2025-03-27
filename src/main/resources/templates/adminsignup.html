@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/signup.css}">
+    
+</head>
+
+<body>
+    <div class="container">
+        <h1>Create <span class="highlight">an account</span></h1>
+        <form th:action="@{/saveadmin}" method="post" id="signup-form">
+
+            <div class="form-group">
+                <input type="text" class="input-field" placeholder="First Name" name="first_name" required>
+                <input type="text" class="input-field" placeholder="Last Name" name="last_name" required>
+            </div>
+			
+            <input type="email" class="input-field full-width" placeholder="Email" name="email" required>
+
+            <button type="submit">Register</button>
+        </form>
+        
+        <p>Already have an account? <a href="#" class="link">Click here to login</a></p>
+        
+        <div class="account-box">
+            Your Account: <span class="account-id">exsahb76asoc9772gban3ebcfdc093d13d4b4</span>
+        </div>
+    </div>
+</body>
+</html>

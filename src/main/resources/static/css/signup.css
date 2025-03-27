@@ -1,0 +1,87 @@
+body {
+    background-color: #0A0A0A; /* Dark background */
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: url('/images/voting.jpeg') no-repeat center center/cover;
+    background-size: cover;
+}
+
+.container {
+    width: 450px; /* Increased width for two-column layout */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 50px auto;
+}
+
+h1 {
+    color: black;
+}
+
+.highlight {
+    color: #E63946; /* Red color */
+}
+
+/* Side-by-side input fields */
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group .input-field {
+    width: 48%; /* Adjust width for two-column layout */
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Full-width fields (Email & Password) */
+.full-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #E63946; /* Red */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #D62839;
+}
+
+.link {
+    color: #E63946;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.account-box {
+    background-color: #E63946;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.account-id {
+    font-weight: bold;
+}

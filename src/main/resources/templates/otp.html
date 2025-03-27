@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/otp.css}">
+	</head>
+<body>
+
+    <!-- OTP -->
+    <section class="otp__section">
+        <div class="container otp__container">
+            <div class="otp__box">
+                <h2>Validate OTP</h2>
+                <div class="otp">
+                    <hr>
+                    <!-- <p class="error_otp">Invalid OTP</p> -->
+                    <p class="otp_message">
+                        The OTP has been sent to your gmail. Please enter the OTP you received to Validate.
+                    </p>
+               
+                    <form th:action="@{/otpverify}" method="post">
+						<p th:if="${message}" class="error-message" th:text="${message}"></p>
+
+                        <input class="otp__input" type="email" th:placeholder="email" name="email" th:value="${email}"
+                            hidden readonly>
+							<input class="otp__input" type="number" placeholder="OTP" min="0" oninput="validity.valid||(value='')" name="otp" required>
+                        <input type="submit" class="btn" value="Validate OTP">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

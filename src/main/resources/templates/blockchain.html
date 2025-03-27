@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blockchain Voting Data</title>
+	   <link rel="stylesheet" type="text/css" th:href="@{/css/voterdashboard.css}">
+	    <script>
+	        function toggleDropdown() {
+	            document.getElementById("userDropdown").classList.toggle("show");
+	        }
+
+	        // Close dropdown when clicking outside
+	        window.onclick = function(event) {
+	            if (!event.target.matches('.dropdown-btn')) {
+	                var dropdowns = document.getElementsByClassName("dropdown-content");
+	                for (var i = 0; i < dropdowns.length; i++) {
+	                    var openDropdown = dropdowns[i];
+	                    if (openDropdown.classList.contains('show')) {
+	                        openDropdown.classList.remove('show');
+	                    }
+	                }
+	            }
+	        }
+	    </script>
+	</head>
+
+	<body>
+	    <header>
+			<div class="header-content">
+						<img src="/candidatepicture/th.jpg" alt="election commission" style="width: 100px; height: 50px;">
+			            <a th:href="@{/voter/voterdashboard}"><h1>Election Commission of Nepal</h1></a>
+			        </div>
+
+	        <!-- User dropdown at top right -->
+	        <div class="user-dropdown">
+	            <button class="dropdown-btn" onclick="toggleDropdown()">
+	                Welcome, <span th:text="${name}"></span> ▼
+	            </button>
+	            <div id="userDropdown" class="dropdown-content">
+	                <a th:href="@{/change-password}">Change Password</a>
+					<a th:href="@{/logout}">Logout</a>
+
+	            </div>
+	        </div>
+	    </header>
+<body>
+    <h1>Blockchain Voting Records</h1>
+
+	<table>
+	    <tr>
+	        <th>Index</th>
+	        <th>Voter ID</th>
+	        <th>Candidate ID</th>
+	        <th>Timestamp</th>
+	        <th>Transaction ID</th>
+	    </tr>
+	    <tr th:each="block, iterStat : ${blocklist}" 
+	        th:if="${iterStat.index > 0}"
+	        th:classappend="${!validationResults[iterStat.index]} ? 'tampered'">
+	        
+	        <td th:text="${iterStat.index}"></td>
+	        <td th:text="${block.voterId}"></td>
+	        <td th:text="${block.candidateId}"></td>
+	        <td th:text="${block.timestamp} ?: 'N/A'"></td>
+	        <td th:text="${block.transactionId} ?: 'N/A'"></td>
+	    </tr>
+	</table>
+
+
+</body>
+</html>

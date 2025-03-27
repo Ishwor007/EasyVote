@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blockchain Voting Data</title>
+	   <link rel="stylesheet" type="text/css" th:href="@{/css/voterdashboard.css}">
+	    <script>
+	        function toggleDropdown() {
+	            document.getElementById("userDropdown").classList.toggle("show");
+	        }
+
+	        // Close dropdown when clicking outside
+	        window.onclick = function(event) {
+	            if (!event.target.matches('.dropdown-btn')) {
+	                var dropdowns = document.getElementsByClassName("dropdown-content");
+	                for (var i = 0; i < dropdowns.length; i++) {
+	                    var openDropdown = dropdowns[i];
+	                    if (openDropdown.classList.contains('show')) {
+	                        openDropdown.classList.remove('show');
+	                    }
+	                }
+	            }
+	        }
+	    </script>
+	</head>
+
+	<body>
+	    <header>
+			<div class="header-content">
+						<img src="/candidatepicture/th.jpg" alt="election commission" style="width: 100px; height: 50px;">
+			            <a th:href="@{/admin/dashboard}"><h1>Election Commission of Nepal</h1></a>
+			        </div>
+
+	        <!-- User dropdown at top right -->
+	        <div class="user-dropdown">
+	            <button class="dropdown-btn" onclick="toggleDropdown()">
+	                Welcome, <span th:text="${name}"></span> ▼
+	            </button>
+	            <div id="userDropdown" class="dropdown-content">
+	                <a th:href="@{/change-password}">Change Password</a>
+					<a th:href="@{/logout}">Logout</a>
+
+	            </div>
+	        </div>
+	    </header>
+<body>
+    <h1>Candidate Records</h1>
+
+	<table>
+	    <tr>
+	        <th>Index</th>
+			<th>Candidate ID</th>
+	        <th>Candidate Name</th>
+	        <th>Location</th>
+	        <th>Biography</th>
+			<th>Action</th>
+	    </tr>
+	    <tr th:each="candidate, iterStat : ${candidatelist}" 
+	        th:if="${iterStat.index > 0}">	        
+	        <td th:text="${iterStat.index}"></td>
+	        <td th:text="${candidate.id}"></td>
+	        <td th:text="${candidate.name}"></td>
+	        <td th:text="${candidate.location} ?: 'N/A'"></td>
+	        <td th:text="${candidate.biography} ?: 'N/A'"></td>
+			<td>
+				                <form th:action="@{'/admin/editcandidate/'+${candidate.id}}" method="POST">
+				                    <input type="hidden" name="id" th:value="${candidate.id}">
+				                    <button class="vote-button" type="submit">Edit</button>
+				                </form>
+		     </td>
+			 <td>
+			 	                <form th:action="@{/voters/candidate}" method="POST">
+			 	                    <input type="hidden" name="id" th:value="${candidate.id}">
+			 	                    <button class="vote-button" type="submit">Delete</button>
+			 	                </form>
+			  </td>
+	    </tr>
+	</table>
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/voterdashboard.css}">
+    <script>
+        function toggleDropdown() {
+            document.getElementById("userDropdown").classList.toggle("show");
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+			<img src="/candidatepicture/th.jpg" alt="election commission" style="width: 100px; height: 50px;">
+			<a th:href="@{/voter/voterdashboard}"><h1>Election Commission of Nepal</h1></a>
+        </div>
+
+        <!-- User dropdown at top right -->
+        <div class="user-dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown()">
+                Welcome, <span th:text="${name}"></span> ▼
+            </button>
+            <div id="userDropdown" class="dropdown-content">
+                <a th:href="@{/voter/changepassword}">Change Password</a>
+				<a th:href="@{/logout}">Logout</a>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="location-box">
+        <p>Location based on Voter_Id: <strong><span th:text="${location}"></span></strong></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Election Symbol</th>
+                <th>Party</th>
+                <th>Candidate Name</th>
+				<th>Candidate picture</th>
+				<th>Biography</th>
+
+                <th>Vote</th>
+            </tr>
+        </thead>
+		<tbody>
+		        <tr th:each="candidate: ${candidatelist}">
+		            <td><img th:src="@{'/candidatepicture/' + ${candidate.partylogo}}" alt="Party Logo"></td>
+		            <td>[[${candidate.partyAffiliation}]]</td>
+		            <td>[[${candidate.name}]]</td>
+		            <td><img th:src="@{'/candidatepicture/' + ${candidate.candidateimage}}" alt="Candidate Picture"></td>
+		            <td>[[${candidate.biography}]]</td>
+
+		            <!-- Show Vote button for each candidate if voter has NOT voted -->
+		            <td th:if="${voter.hasVoted == false}">
+		                <form th:action="@{/voters/candidate}" method="POST">
+		                    <input type="hidden" name="id" th:value="${candidate.id}">
+		                    <button class="vote-button" type="submit">Vote</button>
+		                </form>
+		            </td>
+		        </tr>
+
+		        <!-- Show only one "View" button if voter has already voted -->
+		        <tr th:if="${voter.hasVoted == true}">
+		            <td colspan="6" style="text-align: center;">
+		                <a th:href="@{/voters/candidate}">
+		                    <button type="button" class="vote-button">View Result</button>
+		                </a>
+		            </td>
+		        </tr>
+		    </tbody>
+    </table>
+</body>
+</html>
