@@ -424,7 +424,15 @@ public class VoterController {
 		}
 		return null; 
 	}
-
+	public Candidate getCurrentCandidate() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			// Assuming you have a UserRepository to retrieve the user by username
+			return candidaterepo.findByUname(userDetails.getUsername());
+		}
+		return null; 
+	}
 
 	private String hashOTP(String otp) {
 		return DigestUtils.sha256Hex(otp); // Hash the OTP for storage and comparison

@@ -1,56 +1,81 @@
-.otp__section{
-    margin-bottom: 4rem;
-    min-height: 60vh;
-}
-.otp__container{
-    padding: 3rem;
-}
-.otp__box {
-    width: 800px;
-    /* border: 1px solid black; */
-    background: var(--color-background);
-    margin: 0 auto;
-    padding: 2rem;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.otp{
-    text-align: center;
-}
-.error_otp{
-    background: var(--color-bg);
-    color: var(--color-red);
-    font-size: 15px;
-    margin-top: 1rem;
-}
-.otp_message{
-    width: 100%;
-    margin-top: 2rem;
-    padding: 1rem 2rem;
-    font-size: 15px;
-    margin-bottom: 2rem;
-}
-form{
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background: url('/images/voting.jpg') no-repeat center center/cover;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
+    margin: 0;
 }
+
+/* Centering the OTP box */
+.otp__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+/* OTP Box */
+.otp__box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Heading */
+.otp__box h2 {
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* OTP Message */
+.otp_message {
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+/* Input fields */
 .otp__input {
-    width: 20rem;
-    height: 2.5rem;
-    margin-bottom: 1rem;
-    padding: .3rem 1rem;
-    font-size: 18px;
-    background: var(--color-background-variant);
-    border: 1px solid var(--color-gray);
-    border-radius: 7px;
-	text-align: center;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
 }
 
- body {
-	            display: flex;
-	            justify-content: center;
-	            align-items: center;
-	            height: 100vh;
-				background: url('/images/voting.jpeg') no-repeat center center/cover;
+/* Submit Button */
+.btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
 
-	        }
+.btn:hover {
+    background: #0056b3;
+}
+
+/* Error message */
+.error-message {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 10px;
+}

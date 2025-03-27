@@ -23,6 +23,7 @@ import com.E_Voting.Application.repositories.CandidateRepo;
 import com.E_Voting.Application.service.AdminService;
 import com.E_Voting.Application.service.CandidateService;
 import com.E_Voting.Application.service.VoterService;
+import com.E_Voting.Application.serviceimpl.EmailService;
 
 @Controller
 public class AdminController {
@@ -33,7 +34,11 @@ public class AdminController {
 	@Autowired
 	CandidateService candidate_service;
 	
-
+	@Autowired
+	EmailService emailservice;
+	
+	@Autowired
+	VoterController controller;
 	
 	@Autowired
 	VoterService voter_Service;
@@ -56,8 +61,14 @@ public class AdminController {
       	
       	@PostMapping("/admin/addcandidate")
       	public String addCandidate(@ModelAttribute("candidate") Candidate candidate,HttpServletRequest request) {
+      		
       		try {
-      		adminservice.saveCandidate(candidate,request);
+      		String rawpassword = adminservice.generatePassword();
+      		
+      		emailservice.sendCandidateEmail(candidate.getUname(), rawpassword);
+      		String hashpassword = adminservice.encodePassword(rawpassword);
+      		adminservice.saveCandidate(candidate,request,hashpassword);
+
       		}catch(Exception e) {
       			System.out.println(e.getMessage());
       		}
@@ -98,6 +109,21 @@ public class AdminController {
       	}
       	@GetMapping("/admin/deletecandidate")
       	public void deleteCandidate() {
+      		
+      	}
+      	
+      	@GetMapping("/candidate/viewvotes")
+      	public String getResult(Model model) {
+      		Candidate candidate =controller.getCurrentCandidate();
+      		
+//      		List<Voter> totalvoters = voter_Service.getAllVoter();
+//      		model.addAttribute("totalvoters", totalvoters.size());
+//      		model.addAttribute("candidateno", candidateslist.size());
+//      		model.addAttribute("candidates", candidateslist);
+      		
+      		model.addAttribute("candidate", candidate);
+      		return "viewresult";
+      		
       		
       	}
 

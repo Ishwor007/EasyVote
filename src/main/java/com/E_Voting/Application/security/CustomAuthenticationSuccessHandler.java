@@ -26,9 +26,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	        response.sendRedirect("/admin/dashboard"); // Redirect to admin dashboard
 	    } else if (userDetail.getRole().equals("VOTER")) {
 	        response.sendRedirect("/voter/voterdashboard"); // Redirect to voter dashboard
-	    } else {
-	        // Fallback redirect if no specific role matched
-	        response.sendRedirect("/login");
+	    } else if(userDetail.getRole().equals("CANDIDATE")) {
+	        response.sendRedirect("/candidate/viewvotes");
+
 	    }
 	}
 

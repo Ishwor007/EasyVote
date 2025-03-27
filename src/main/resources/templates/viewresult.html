@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Vote Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .candidate-info {
+            margin-bottom: 30px;
+        }
+
+        .candidate-details {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .candidate-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .candidate-name h2 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+        }
+
+        .vote-details {
+            margin-top: 30px;
+        }
+
+        .vote-bar-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .vote-bar {
+            width: 100%;
+            height: 30px;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .vote-fill {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 15px;
+            width: 0;
+            transition: width 1s ease-in-out;
+        }
+
+        .vote-text {
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="candidate-info">
+            <h1>Candidate Vote Dashboard</h1>
+            <div class="candidate-details">
+                <img src="candidate-image.jpg" alt="Candidate Image" class="candidate-image">
+                <div class="candidate-name">
+                    <h2>[[${candidate.name}]]</h2>
+                    <p>Party: Example Party</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="vote-details">
+            <h3>Vote Count</h3>
+            <div class="vote-bar-container">
+                <div class="vote-bar">
+                    <div class="vote-fill" id="vote-fill"></div>
+                </div>
+                <p class="vote-text" id="vote-text">0 Votes</p>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="refreshBtn">Refresh Votes</button>
+        </div>
+    </div>
+
+    <script>
+        let totalVotes = 5000; // Example number of total votes, can be dynamically fetched
+        let candidateVotes = 3500; // Example votes for this candidate
+
+        const voteFill = document.getElementById('vote-fill');
+        const voteText = document.getElementById('vote-text');
+
+        // Function to calculate the percentage of votes
+        function updateVotes() {
+            const percentage = (candidateVotes / totalVotes) * 100;
+            voteFill.style.width = `${percentage}%`;
+            voteText.textContent = `${candidateVotes} Votes (${percentage.toFixed(2)}%)`;
+        }
+
+        // Refresh votes when button is clicked
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            // Simulate a vote refresh (in a real scenario, you would fetch data from the backend)
+            candidateVotes = Math.floor(Math.random() * totalVotes); // Simulated new votes
+            updateVotes();
+        });
+
+        // Initial vote display
+        updateVotes();
+    </script>
+</body>
+</html>

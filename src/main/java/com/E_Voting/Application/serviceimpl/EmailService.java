@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +31,9 @@ public class EmailService {
      VoterRepo voterrepo;
 	
 	private String otp;
-	
+	@Autowired
+	BCryptPasswordEncoder passwordencoder;
+
 	
 	
 	
@@ -89,12 +92,27 @@ public class EmailService {
 				+ " guwarko,lalitpur, Nepal.\n" + " Phone # 977-98123456789\n"
 				+ " Email Id: support@EasyVote.com.np\n" + " Warm Regards,\n" + " EasyVote.");
 
-	
-
-
 		mailSender.send(message);
 	}
 	
+	
+	public void sendCandidateEmail(String to,String password) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		System.out.println("email-"+to);
+       message.setTo(to);
+		message.setSubject("Candidate Credentials");
+
+       message.setText("Dear Sir/Madam,"
+				+ "\n \nATTN : Please do not reply to this email.This mailbox is not monitored and you will not receive a response.\n"
+				+ "\n \nYour Username id is " + to + "."
+				+ "\n \nYour password is " + password + "."
+				+ "\n \nPlease use this credentails to view your vote"
+				+ " If you have any queries, Please contact us at,\n" + "\n" + " EasyVote,\n"
+				+ " guwarko,lalitpur, Nepal.\n" + " Phone # 977-98123456789\n"
+				+ " Email Id: support@EasyVote.com.np\n" + " Warm Regards,\n" + " EasyVote.");
+       mailSender.send(message);
+		
+	}
 	
     public int generateOtp() {
     	Random rand = new Random();

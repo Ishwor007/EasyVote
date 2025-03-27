@@ -11,5 +11,7 @@ import com.E_Voting.Application.models.Candidate;
 
 public interface AdminService {
   public boolean saveAdmin(Admin admin,String email);
-  public void saveCandidate(Candidate candidate,HttpServletRequest request) throws IOException;
+  public void saveCandidate(Candidate candidate,HttpServletRequest request,String password) throws IOException;
+  public String generatePassword();
+	public String encodePassword(String plainPassword);
 }

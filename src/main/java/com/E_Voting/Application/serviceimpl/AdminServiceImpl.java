@@ -48,12 +48,13 @@ public class AdminServiceImpl implements AdminService {
         adminrepo.save(admin);		
         return true;
 	}
-	public static String encodePassword(String plainPassword) {
+	public String encodePassword(String plainPassword) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encoded = encoder.encode(plainPassword);
 		return encoded;
 	}
-	public static String generatePassword() {
+	@Override
+	public String generatePassword() {
 		StringBuilder sb = new StringBuilder();
 		SecureRandom random = new SecureRandom();
 
@@ -74,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
 		mailSender.send(message);
 	}
 	@Override
-	public void saveCandidate(@ModelAttribute("candidate") Candidate candidate,HttpServletRequest request) throws IOException {
+	public void saveCandidate(@ModelAttribute("candidate") Candidate candidate,HttpServletRequest request,String password) throws IOException {
 
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
@@ -102,7 +103,8 @@ public class AdminServiceImpl implements AdminService {
 		candidate.setLocation(candidate.getLocation().toLowerCase());
 		candidate.setPartylogo(partylogoname);
 		candidate.setCandidateimage(candidatename);
-		
+		candidate.setUname(candidate.getUname().toLowerCase());
+		candidate.setPassword(password);
 
 		System.out.println(partylogo_path);
 		       

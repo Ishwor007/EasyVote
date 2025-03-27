@@ -33,13 +33,23 @@ public class Candidate {
     @Column
     private int totalvotes;
     
+    @Column
+    private String uname;
+    @Column
+    private String password;
+    
+    @Column
+    private String role;
+    
     @OneToMany(mappedBy = "candidate")
     private List<Vote> votes;
     
     public Candidate() {
     	this.totalvotes=0;
-    }
+  		this.role = "CANDIDATE";
 
+    }
+   
     // Getters and Setters
     public int getId() {
         return id;
@@ -112,6 +122,28 @@ public class Candidate {
 	public void setTotalvotes(int totalvotes) {
 		this.totalvotes = totalvotes;
 	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	
 
    
 

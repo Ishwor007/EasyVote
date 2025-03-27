@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.E_Voting.Application.models.Admin;
+import com.E_Voting.Application.models.Candidate;
 import com.E_Voting.Application.models.Voter;
 
 
@@ -25,7 +26,7 @@ public class CustomUserDetail implements UserDetails {
 	
 	
 	private Voter voter;
-
+	private Candidate candidate;
 	private Admin admin;
 	CustomUserDetail() {
 
@@ -38,15 +39,24 @@ public class CustomUserDetail implements UserDetails {
 		this.admin = u;
 	}
 
+	public CustomUserDetail(Candidate c) {
+		this.candidate = c;
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		String role="";
 		List<GrantedAuthority> authoritylist = new ArrayList<>();
-		if(voter!=null) {
+		if(voter!=null&&voter.getRole().equals("VOTER")) {
 		 role = ROLE_PREFIX+voter.getRole();
-		 }
-		else {
+		 }else if(candidate!=null&&candidate.getRole().equals("CANDIDATE")){
+				role = ROLE_PREFIX+candidate.getRole();
+		
+		}else{
+			 System.out.println("at collection"+admin.getRole());
+
 			 role = ROLE_PREFIX+admin.getRole();
+			 
+
 		}
 		authoritylist.add(new SimpleGrantedAuthority(role));
 		return authoritylist;
@@ -54,8 +64,10 @@ public class CustomUserDetail implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		if(voter!=null) {
+		if(voter!=null&&voter.getRole().equals("VOTER")) {
 		return voter.getPassword();
+		}else if(candidate!=null&&candidate.getRole().equals("CANDIDATE")) {
+			return candidate.getPassword();
 		}else {
 			return admin.getPassword();
 		}
@@ -63,11 +75,13 @@ public class CustomUserDetail implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		if(voter!=null) {
-
+		if(voter!=null&&voter.getRole().equals("VOTER")) {
 		return voter.getEmail();
+		}else if(candidate!=null&&candidate.getRole().equals("CANDIDATE")) {
+			return candidate.getUname();
 		}else {
 			return admin.getEmail();
+
 		}
 	}
 
@@ -94,8 +108,10 @@ public class CustomUserDetail implements UserDetails {
 		return true;
 	}
 	public String getRole(){
-		if(voter!=null) {
+		if(voter!=null&&voter.getRole().equals("VOTER")) {
 		return voter.getRole();
+		}else if(candidate!=null&&candidate.getRole().equals("CANDIDATE")) {
+			return candidate.getRole();
 		}else {
 			return admin.getRole();
 		}
