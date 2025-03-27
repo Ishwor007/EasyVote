@@ -115,13 +115,17 @@ public class AdminController {
       	@GetMapping("/candidate/viewvotes")
       	public String getResult(Model model) {
       		Candidate candidate =controller.getCurrentCandidate();
-      		
+      		List<Vote> votelist = voter_Service.findAllByUniqueVote();
+
 //      		List<Voter> totalvoters = voter_Service.getAllVoter();
 //      		model.addAttribute("totalvoters", totalvoters.size());
 //      		model.addAttribute("candidateno", candidateslist.size());
 //      		model.addAttribute("candidates", candidateslist);
       		
       		model.addAttribute("candidate", candidate);
+      		model.addAttribute("voteno", votelist.size());
+
+      		
       		return "viewresult";
       		
       		

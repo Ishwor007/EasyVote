@@ -106,10 +106,10 @@
         <div class="candidate-info">
             <h1>Candidate Vote Dashboard</h1>
             <div class="candidate-details">
-                <img src="candidate-image.jpg" alt="Candidate Image" class="candidate-image">
+                <img th:src="@{'/candidatepicture/' + ${candidate.candidateimage}}" alt="Candidate Image" class="candidate-image">
                 <div class="candidate-name">
                     <h2>[[${candidate.name}]]</h2>
-                    <p>Party: Example Party</p>
+                    <p>Party:[[${candidate.partyAffiliation}]]</p>
                 </div>
             </div>
         </div>
@@ -129,9 +129,9 @@
         </div>
     </div>
 
-    <script>
-        let totalVotes = 5000; // Example number of total votes, can be dynamically fetched
-        let candidateVotes = 3500; // Example votes for this candidate
+    <script th:inline="javascript">
+        let totalVotes = voteno; // Example number of total votes, can be dynamically fetched
+        let candidateVotes = /*[[${candidates.![totalvotes]}]]*/ [];; // Example votes for this candidate
 
         const voteFill = document.getElementById('vote-fill');
         const voteText = document.getElementById('vote-text');
