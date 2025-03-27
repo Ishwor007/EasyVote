@@ -68,7 +68,7 @@ public class AdminController {
       		emailservice.sendCandidateEmail(candidate.getUname(), rawpassword);
       		String hashpassword = adminservice.encodePassword(rawpassword);
       		adminservice.saveCandidate(candidate,request,hashpassword);
-
+            return "dashboard";
       		}catch(Exception e) {
       			System.out.println(e.getMessage());
       		}
