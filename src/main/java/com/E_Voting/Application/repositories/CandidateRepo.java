@@ -11,11 +11,15 @@ import com.E_Voting.Application.models.Candidate;
 @Repository
 public interface CandidateRepo extends JpaRepository<Candidate, Integer> {
 	public Candidate findByUname(String email);
+	
+	
 	List<Candidate> findByLocation(String location);
 	public Candidate findById(int id);
 	
 	@Query("SELECT DISTINCT c FROM Candidate c")
     List<Candidate> findAllUniqueCandidates();
+	
+	
 	
 	
 	

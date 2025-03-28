@@ -44,6 +44,10 @@
 	    </header>
 <body>
     <h1>Candidate Records</h1>
+	<!-- Message Display Section -->
+	<center><div th:if="${message}" class="message-container">
+	    <p class="message" th:text="${message}"></p>
+	 </div></center>
 
 	<table>
 	    <tr>
@@ -55,7 +59,7 @@
 			<th>Action</th>
 	    </tr>
 	    <tr th:each="candidate, iterStat : ${candidatelist}" 
-	        th:if="${iterStat.index > 0}">	        
+	        th:if="${iterStat.index >= 0}">	        
 	        <td th:text="${iterStat.index}"></td>
 	        <td th:text="${candidate.id}"></td>
 	        <td th:text="${candidate.name}"></td>
@@ -68,7 +72,7 @@
 				                </form>
 		     </td>
 			 <td>
-			 	                <form th:action="@{/voters/candidate}" method="POST">
+			 	                <form th:action="@{'/admin/deletecandidate/'+${candidate.id}}" method="POST">
 			 	                    <input type="hidden" name="id" th:value="${candidate.id}">
 			 	                    <button class="vote-button" type="submit">Delete</button>
 			 	                </form>

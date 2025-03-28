@@ -19,6 +19,7 @@ import com.E_Voting.Application.models.Admin;
 import com.E_Voting.Application.models.Candidate;
 import com.E_Voting.Application.models.Vote;
 import com.E_Voting.Application.models.Voter;
+import com.E_Voting.Application.repositories.AdminRepo;
 import com.E_Voting.Application.repositories.CandidateRepo;
 import com.E_Voting.Application.service.AdminService;
 import com.E_Voting.Application.service.CandidateService;
@@ -39,6 +40,9 @@ public class AdminController {
 	
 	@Autowired
 	VoterController controller;
+	
+	@Autowired
+	CandidateRepo candidrepo;
 	
 	@Autowired
 	VoterService voter_Service;
@@ -107,9 +111,14 @@ public class AdminController {
       		model.addAttribute("candidate", candidate);
       		return "addcandidateform";
       	}
-      	@GetMapping("/admin/deletecandidate")
-      	public void deleteCandidate() {
-      		
+      	
+      	@PostMapping("/admin/deletecandidate/{id}")
+      	public String deleteCandidate(@PathVariable("id") int id, Model model) {
+      		candidrepo.deleteById(id);
+      		List<Candidate> candidatelist = candidate_service.getAllUniqueCandidates();
+          	model.addAttribute("candidatelist", candidatelist);
+          	model.addAttribute("msg", "Delete Successfull");
+      		return "candidatelist";
       	}
       	
       	@GetMapping("/candidate/viewvotes")
