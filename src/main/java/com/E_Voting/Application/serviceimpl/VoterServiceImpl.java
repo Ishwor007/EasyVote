@@ -15,17 +15,13 @@ import com.E_Voting.Application.service.VoterService;
 public class VoterServiceImpl implements VoterService {
 	@Autowired
 	VoterRepo voterrepo;
-	
 	@Autowired
 	VoteRepo voterepo;
-
 	@Override
 	public void saveVoter(Voter voter) {
-		
 		voterrepo.save(voter);
 		
 	}
-	
 	@Override
 	public boolean checkEmail(String email) {
 		Voter voter = voterrepo.findByEmail(email);
@@ -37,17 +33,13 @@ public class VoterServiceImpl implements VoterService {
 
 	@Override
 	public void updateStatus(int id) {
-              voterrepo.updatestatus(id);		
-            
+              voterrepo.updatestatus(id);		       
 	}
 
 	@Override
 	public List<Vote> findAllByUniqueVote() {
-		
-		
 		return voterepo.findAllByUniqueVote();
 	}
-
 	@Override
 	public List<Voter> getAllVoter() {
 		// TODO Auto-generated method stub

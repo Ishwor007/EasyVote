@@ -31,19 +31,14 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminservice;
-	
 	@Autowired
 	CandidateService candidate_service;
-	
 	@Autowired
 	EmailService emailservice;
-	
 	@Autowired
 	VoterController controller;
-	
 	@Autowired
 	CandidateRepo candidrepo;
-	
 	@Autowired
 	VoterService voter_Service;
 	  @GetMapping("/signup/admin")
@@ -72,12 +67,10 @@ public class AdminController {
       		emailservice.sendCandidateEmail(candidate.getUname(), rawpassword);
       		String hashpassword = adminservice.encodePassword(rawpassword);
       		adminservice.saveCandidate(candidate,request,hashpassword);
-            return "dashboard";
       		}catch(Exception e) {
       			System.out.println(e.getMessage());
       		}
-
-      		return "addcandidateform";
+      		return "candidatelist";
       	}
       	
       	@GetMapping("/admin/dashboard")
@@ -125,13 +118,9 @@ public class AdminController {
       	public String getResult(Model model) {
       		Candidate candidate =controller.getCurrentCandidate();
       		List<Vote> votelist = voter_Service.findAllByUniqueVote();
-
-//      		List<Voter> totalvoters = voter_Service.getAllVoter();
-//      		model.addAttribute("totalvoters", totalvoters.size());
-//      		model.addAttribute("candidateno", candidateslist.size());
-//      		model.addAttribute("candidates", candidateslist);
-      		
       		model.addAttribute("candidate", candidate);
+
+      		model.addAttribute("candidatevotes", candidate.getTotalvotes());
       		model.addAttribute("voteno", votelist.size());
 
       		

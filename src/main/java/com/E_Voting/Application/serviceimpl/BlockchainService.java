@@ -15,23 +15,14 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-
-
 @Service
 public class BlockchainService {
-	
     private List<Block> blocklist;
-
-	
 	@Autowired
     private BlockRepo blockRepository;
-	
 	private Blockchain blockchain;
-
-    
     public List<Block> initBlockchain() {
         blockchain = new Blockchain();
-
         List<Block> blocks = blockRepository.findAllByOrderByIdAsc();  // Ensure blocks are ordered by ID
         for (Block block : blocks) {
             blockchain.addBlockFromDatabase(block);
@@ -54,19 +45,13 @@ public class BlockchainService {
     public synchronized List<Block> addVote(Vote vote) {
         Block lastBlock = blockRepository.findLastBlock();
         String previousHash = (lastBlock == null) ? "0" : lastBlock.getHash();
-
-        
          String voterId = vote.getVoter().getVoter_id();
          String candidateid =String.valueOf(vote.getCandidate().getId()) ;
-         
          String hashvoterid = applySHA256(voterId);
          String hashcandidateid = applySHA256(candidateid);
-         
-         
         Block newBlock = new Block(hashvoterid, hashcandidateid, previousHash);
         blockRepository.save(newBlock);
-        List<Block> blocklist = initBlockchain();
-        
+        List<Block> blocklist = initBlockchain(); 
         return  blocklist;
     }
 	
@@ -76,11 +61,6 @@ public class BlockchainService {
         for (int i = 2; i < blocklist.size(); i++) {
             Block currentBlock = blocklist.get(i);
             Block previousBlock = blocklist.get(i - 1);
-
-        	System.out.println("is valid section- "+previousBlock.getHash());
-        	System.out.println("is valid section- "+currentBlock.getPreviousHash());
-
-
             if (!currentBlock.getHash().equals(currentBlock.calculateHash())) {
                 return false;
             }
@@ -106,7 +86,6 @@ public class BlockchainService {
         
     }
         public String returnTransactionId(String TransactionId) {
-      
         	return TransactionId;
         }
         

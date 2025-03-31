@@ -70,8 +70,6 @@ public class VoterController {
 	
 	@Autowired
 	CandidateService candidateservice;
-	
-	
 
 	
 	private Map<String, String> otpstore = new HashMap<>();
@@ -85,8 +83,6 @@ public class VoterController {
 	public String getSignupPage() {
 		return "signup";
 	}
-	
-
 
  @PostMapping("/register")
     public String saveVoter(@ModelAttribute("voter") Voter voter, BindingResult result,RedirectAttributes redirectAttributes) {
@@ -198,13 +194,9 @@ public class VoterController {
 		
 		
 	}
-	
-
-	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		request.getSession(false).invalidate();
-
 		return "redirect:/signup";
 	}
 	
@@ -241,27 +233,6 @@ public class VoterController {
 	@PostMapping("/voters/candidate")
 	public String getVote(@RequestParam("id") int id, Vote vote, Model model,RedirectAttributes redirectAttributes) {
 		Voter voter = getCurrentUser();
-		System.out.println("id from vote-------------"+ id);
-        String name = voter.getFirst_name();
-		if(voter.isHasVoted()) {
-			return "redirect:/voter/voterdashboard";
-		}
-		Candidate candidate = candidaterepo.findById(id);
-		vote.setVoter(voter);
-		vote.setCandidate(candidate);
-           
-		 String hash = emailservice.sendEmailHash(voter.getEmail());
-         hashstore.put(voter.getEmail(), hash);		
-         redirectAttributes.addFlashAttribute("email", voter.getEmail());
-         redirectAttributes.addFlashAttribute("candidateId",candidate.getId());
-         redirectAttributes.addFlashAttribute("vote", vote);
-         redirectAttributes.addFlashAttribute("id",String.valueOf(id));
-		return "redirect:/voter/hashverify";
-	}
-
-	
-	@GetMapping("/voter/hashverify")
-	public String hashVerify(@ModelAttribute("vote") Vote vote,Model model,RedirectAttributes redirectAttributes) {
 		
 		this.blocklist=blockchainservice.initBlockchain();
 		List<Boolean> validationResults = new ArrayList<>();
@@ -289,6 +260,29 @@ public class VoterController {
 		     }
 
 		    }
+		
+        String name = voter.getFirst_name();
+		if(voter.isHasVoted()) {
+			return "redirect:/voter/voterdashboard";
+		}
+		Candidate candidate = candidaterepo.findById(id);
+		vote.setVoter(voter);
+		vote.setCandidate(candidate);
+           
+		 String hash = emailservice.sendEmailHash(voter.getEmail());
+         hashstore.put(voter.getEmail(), hash);		
+         redirectAttributes.addFlashAttribute("email", voter.getEmail());
+         redirectAttributes.addFlashAttribute("candidateId",candidate.getId());
+         redirectAttributes.addFlashAttribute("vote", vote);
+         redirectAttributes.addFlashAttribute("id",String.valueOf(id));
+		return "redirect:/voter/hashverify";
+	}
+
+	
+	@GetMapping("/voter/hashverify")
+	public String hashVerify(@ModelAttribute("vote") Vote vote,Model model,RedirectAttributes redirectAttributes) {
+		
+	
   	String email = (String) model.asMap().get("email");
   	String message = (String) model.asMap().get("message");
   	String id = (String) model.asMap().get("id");
@@ -306,8 +300,6 @@ public class VoterController {
 	public String hashVerify(@ModelAttribute("vote") Vote vote,@RequestParam("otp") String hash,
 			@RequestParam("email") String email,@RequestParam("candidateId") int candidateId,
 			RedirectAttributes redirectAttributes,Model model) {
-		
-			
 		
 		String transation_id="";
 		long timestamp=0;
@@ -346,9 +338,7 @@ public class VoterController {
 						emailservice.sendConfimationEmail(email, transation_id, timestamp);
 						model.addAttribute("name", name);
 				        model.addAttribute("blocklist", blocklist);
-				        
-				        
-
+				   
 						return "redirect:/voters/candidate";
 					}
 					otpstore.remove(email);
@@ -364,12 +354,6 @@ public class VoterController {
 		redirectAttributes.addFlashAttribute("id",String.valueOf(candidateId));
 		return "redirect:/voter/hashverify";
 	}
-	
-	
-	
-	
-	
-	
 	
 	@GetMapping("/voter/changepassword")
 	public String changePassword(Model model) {
@@ -401,10 +385,6 @@ public class VoterController {
 		return "/voter/voterdashboards";
 	}
 	
-	
-	
-	
-
 	
 	public Voter getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -120,38 +120,58 @@
                 <div class="vote-bar">
                     <div class="vote-fill" id="vote-fill"></div>
                 </div>
-                <p class="vote-text" id="vote-text">0 Votes</p>
+                <p class="vote-text" id="vote-text" th:text="${candidate.totalvotes}"></p>
             </div>
         </div>
 
-        <div class="actions">
-            <button id="refreshBtn">Refresh Votes</button>
-        </div>
+      
+		<div class="actions">
+		        <a th:href="@{/logout}"><button id="refreshBtn"> logout</button></a>
+		    </div>
+
     </div>
+	<script th:inline="javascript">
+	    // Get values from Thymeleaf model
+	    let candidateVotes = [[${candidatevotes}]]; // Votes received by the candidate
+	    let totalVotes =15; // Total votes cast
 
-    <script th:inline="javascript">
-        let totalVotes = voteno; // Example number of total votes, can be dynamically fetched
-        let candidateVotes = /*[[${candidates.![totalvotes]}]]*/ [];; // Example votes for this candidate
+	    const voteFill = document.getElementById('vote-fill');
+	    const voteText = document.getElementById('vote-text');
 
-        const voteFill = document.getElementById('vote-fill');
-        const voteText = document.getElementById('vote-text');
+	    // Function to update the vote progress bar
+	    function updateVotes() {
+	        if (totalVotes > 0) {
+	            const percentage = (candidateVotes / totalVotes) * 100;
+	            voteFill.style.width = `${percentage}%`;
+	            voteText.textContent = `${candidateVotes} Votes (${percentage.toFixed(2)}%)`;
+	        } else {
+	            voteFill.style.width = `0%`;
+	            voteText.textContent = `0 Votes (0%)`;
+	        }
+	    }
 
-        // Function to calculate the percentage of votes
-        function updateVotes() {
-            const percentage = (candidateVotes / totalVotes) * 100;
-            voteFill.style.width = `${percentage}%`;
-            voteText.textContent = `${candidateVotes} Votes (${percentage.toFixed(2)}%)`;
-        }
+	    // Initial update
+	    updateVotes();
 
-        // Refresh votes when button is clicked
-        document.getElementById('refreshBtn').addEventListener('click', function() {
-            // Simulate a vote refresh (in a real scenario, you would fetch data from the backend)
-            candidateVotes = Math.floor(Math.random() * totalVotes); // Simulated new votes
-            updateVotes();
-        });
+	    // Function to fetch updated vote data
+	    async function fetchVoteData() {
+	        try {
+	            const response = await fetch('/vote-data'); // Fetch updated vote data from controller
+	            const data = await response.json();
 
-        // Initial vote display
-        updateVotes();
-    </script>
+	            candidateVotes = data.candidateVotes;
+	            totalVotes = data.totalVotes;
+
+	            updateVotes(); // Update the UI with new data
+	        } catch (error) {
+	            console.error('Error fetching vote data:', error);
+	        }
+	    }
+
+	    // Refresh button click event
+	    document.getElementById('refreshBtn').addEventListener('click', fetchVoteData);
+	</script>
+
+
 </body>
 </html>

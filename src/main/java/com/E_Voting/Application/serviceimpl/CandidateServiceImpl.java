@@ -22,14 +22,11 @@ public class CandidateServiceImpl implements CandidateService {
 		return candidaterepo.findByLocation(location) ;
 	}
 
-
 	@Override
 	public List<Candidate> getAllUniqueCandidates() {
 		
  		return candidaterepo.findAllUniqueCandidates();
 	}
-
-
 	@Override
 	public Candidate getCandidateByID(int id) {
 		Candidate candidate  = candidaterepo.getById(id);

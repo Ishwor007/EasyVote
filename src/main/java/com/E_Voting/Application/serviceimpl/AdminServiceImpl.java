@@ -81,8 +81,7 @@ public class AdminServiceImpl implements AdminService {
 
         MultipartFile partylogo = multipartRequest.getFile("party_logo");
         MultipartFile candidateimage = multipartRequest.getFile("candidate_image");
-       
-        
+      
         String partylogoname = candidate.getName()+"_"+partylogo.getOriginalFilename();
         String candidatename =  candidate.getName()+"_"+candidateimage.getOriginalFilename();
         
@@ -105,14 +104,7 @@ public class AdminServiceImpl implements AdminService {
 		candidate.setCandidateimage(candidatename);
 		candidate.setUname(candidate.getUname().toLowerCase());
 		candidate.setPassword(password);
-
 		System.out.println(partylogo_path);
-		       
-		
 		candidaterepo.save(candidate);
-		
-		
 	}
-	
-	
 }

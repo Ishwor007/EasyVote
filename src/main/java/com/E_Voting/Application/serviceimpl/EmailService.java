@@ -34,10 +34,6 @@ public class EmailService {
 	@Autowired
 	BCryptPasswordEncoder passwordencoder;
 
-	
-	
-	
-
 	public String sendEmail(String to) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		otp = Integer.toString(generateOtp());
@@ -50,13 +46,23 @@ public class EmailService {
 				+ " If you have any queries, Please contact us at,\n" + "\n" + " EasyVote,\n"
 				+ " guwarko,lalitpur, Nepal.\n" + " Phone # 977-98123456789\n"
 				+ " Email Id: support@EasyVote.com.np\n" + " Warm Regards,\n" + " EasyVote.");
-
-		
-
 		mailSender.send(message);
 
 		return otp;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public String sendEmailHash(String to) {
 		SimpleMailMessage message = new SimpleMailMessage();

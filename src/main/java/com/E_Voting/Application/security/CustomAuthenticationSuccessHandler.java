@@ -18,14 +18,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 	                                    Authentication authentication) throws IOException {
 
-	    // Get the CustomUserDetail object from the authentication principal
 	    CustomUserDetail userDetail = (CustomUserDetail) authentication.getPrincipal();
 
-	    // Check if the user is an admin or voter based on the role in CustomUserDetail
 	    if (userDetail.getRole().equals("ADMIN")) {
-	        response.sendRedirect("/admin/dashboard"); // Redirect to admin dashboard
+	        response.sendRedirect("/admin/dashboard"); 
 	    } else if (userDetail.getRole().equals("VOTER")) {
-	        response.sendRedirect("/voter/voterdashboard"); // Redirect to voter dashboard
+	        response.sendRedirect("/voter/voterdashboard"); 
 	    } else if(userDetail.getRole().equals("CANDIDATE")) {
 	        response.sendRedirect("/candidate/viewvotes");
 

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "block")
 public class Block {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,10 +22,7 @@ public class Block {
     private String candidateId;
     private long timestamp;
     private int nonce;
-
-
     public Block() {}
-
     public Block(String voterId, String candidateId, String previousHash) {
         this.voterId = voterId;
         this.candidateId = candidateId;
@@ -44,7 +40,7 @@ public class Block {
         String data = previousHash + timestamp + voterId + candidateId +transactionId;
         return applySHA256(data);
     }
-
+    
     private String applySHA256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
